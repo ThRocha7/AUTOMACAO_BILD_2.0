@@ -7,8 +7,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from time import sleep
 import pandas as pd
 import pyautogui as auto
-from credenciais import *
-from validadores import validador_planilha, conferir_arq
+from resources.credenciais import *
+from resources.validadores import validador_planilha, conferir_arq
 import pyperclip as clip
 
 service = Service()

@@ -1,3 +1,0 @@
-email = ''
-senha = ''
-caminho = r''

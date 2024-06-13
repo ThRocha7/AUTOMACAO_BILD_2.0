@@ -3,12 +3,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from time import sleep
 import pandas as pd
 import pyautogui as auto
-from credenciais import *
-from validadores import validador_planilha, conferir_arq
+import resources
 import pyperclip as clip
 
 auto.PAUSE = .5
