@@ -1,0 +1,3 @@
+email = ''
+senha = ''
+caminho = r''
