@@ -1,6 +1,6 @@
 # Automação de Cadastro de Documentos Não Fiscais
 
-Esse readme trará algumas explicações e infos sobre essa automação. Ela é bem simples, baseada em Selenium e Pyautogui.
+Esse readme trará algumas explicações e infos sobre essa automação. Ela é bem simples, baseada em **Selenium** e **Pyautogui**, se utilizará de uma planilha para preencher os campos necessários para realizar o cadastro.
 
 ## Pastas e Arquivos:
 
@@ -46,3 +46,14 @@ Para sempre que rodar o código baixar a última versão do __Webdriver Manager_
     options = webdriver.ChromeOptions()
     driver = webdriver.Chrome(service=service, options=options)
 ```
+
+## Processos:
+
+O fluxo dessa automação fica basicamente em uma tela, seguindo esse fluxo:
+
+1. Informar as credenciais;
+2. Fazer login no site ICM;
+3. Entrar na tela de cadastro de documentos não fiscais;
+4. Preenche os campos;
+5. Inserir PDF do documento;
+6. Finalizar o cadastro e reiniciar o fluxo.
