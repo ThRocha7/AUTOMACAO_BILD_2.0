@@ -1,5 +1,12 @@
 import pyautogui as auto
 import pyperclip as clip
+from credenciais import infos
+
+def inserir_credencial(infos):
+    for i in infos:
+        if infos[i] == '':
+            infos[i] = input(f'Digite o {i} para prosseguir: ')
+    return infos
 
 def validador_planilha(dados):
     for i in dados:

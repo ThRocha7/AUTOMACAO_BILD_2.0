@@ -3,34 +3,34 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from time import sleep
 import pandas as pd
 import pyautogui as auto
-from credenciais import *
-from validadores import validador_planilha, conferir_arq
+import resources as rs
 import pyperclip as clip
+
 
 service = Service()
 options = webdriver.ChromeOptions()
 driver = webdriver.Chrome(service=service, options=options)
 
+# Verifica se as credenciais foram informadas
+credenciais = rs.inserir_credencial(rs.infos)
+
 driver.get('https://app-icm-bild-dnpk5acdua-uc.a.run.app/login')
 
-# Fazer login
-
-#Colocando email
+#Colocando email para realizar o login
 try:
     field_email = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.ID, "email"))
     )
-    field_email.send_keys(email)
+    field_email.send_keys(rs.infos['email'])
 except:
     driver.quit()
 
 #Colocando senha 
 field_senha = driver.find_element(By.ID, 'password')
-field_senha.send_keys(senha)
+field_senha.send_keys(rs.infos['senha'])
 
 #Apertando botão de login
 conectar_btn = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div[2]/div/div[3]/div/section[4]/button')
@@ -58,13 +58,13 @@ for linha in df.index:
     'prestador': df.loc[linha,'fornecedor'],
     'data': df.loc[linha, 'competencia'],
     'valor': str(df.loc[linha,'valor']),
-    'num_doc': int(df.loc[linha,'num_doc']),
+    'num_doc': str(df.loc[linha,'num_doc']),
     'servico': df.loc[linha,'servico'],
     'nome_arq': df.loc[linha,'nome_arquivo'],
     'nome_abrev': df.loc[linha, 'nome_abrev']
     }
         
-    dados_validados= validador_planilha(dados)
+    dados_validados= rs.validador_planilha(dados)
     if dados_validados == False:
         break
     
@@ -142,12 +142,12 @@ for linha in df.index:
     field_total = driver.find_element(By.XPATH, '/html/body/div/section/div/div[2]/div[2]/div/div/div[1]/div[2]/div[1]/div[8]')
     field_total.click()
     dados['valor'] = dados['valor'].replace('.', ',')
-    auto.write(str(dados['valor']))
+    auto.write(dados['valor'])
 
     # Preenche número do documento
     field_num_doc = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div[2]/div[2]/div/div/div[1]/div[2]/div[2]/div[1]')
     field_num_doc.click()
-    auto.write(str(dados['num_doc']))
+    auto.write(dados['num_doc'])
 
     # Preenche serviço
     field_servico = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div[2]/div[2]/div/div/div[1]/div[2]/div[2]/div[4]')
@@ -165,20 +165,32 @@ for linha in df.index:
 
     # Procurando PDF
     auto.press(['tab', 'tab', 'tab', 'tab', 'tab', 'enter'])
-    clip.copy(caminho)
+    clip.copy(rs.infos['caminho'])
     auto.hotkey('ctrl', 'v')
     auto.press(['enter', 'tab'])
     auto.write(dados['nome_abrev'])
     sleep(3)
     auto.press(['tab', 'tab', 'tab', 'down', 'up', 'f2'])
     auto.hotkey('ctrl', 'c')
-    nome_arq_validado = conferir_arq(dados['nome_arq'])
 
-    btn_cadastrar_doc = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div[2]/div[2]/div/div/div[1]/div[2]/div[2]/div[10]/section/button')
-    btn_cadastrar_doc.click()
-    sleep(12)
+    nome_arq_validado = rs.conferir_arq(dados['nome_arq'])
 
-    btn_voltar = driver.find_element(By.XPATH, '//*[@id="rollback"]')
-    btn_voltar.click()
+    if nome_arq_validado == False:
+        print(f'parei na linha {linha + 2}')
+        rs.notificacao_erro.show()
+        break
+    else:
+        btn_cadastrar_doc = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div[2]/div[2]/div/div/div[1]/div[2]/div[2]/div[10]/section/button')
+        btn_cadastrar_doc.click()
+        sleep(12)
+
+        btn_voltar = driver.find_element(By.XPATH, '//*[@id="rollback"]')
+        btn_voltar.click()
+
+        # Reiniciar processo
+        outras_entradas.click()
+        nao_fiscais.click()
+
 
 driver.quit()
+rs.notificacao_finalizado.show()
