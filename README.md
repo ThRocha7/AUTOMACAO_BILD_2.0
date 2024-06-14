@@ -42,7 +42,7 @@ Depois de instalá-las, importei-as assim:
 Para sempre que rodar o código baixar a última versão do __Webdriver Manager__, utilize o código:
 
 ```
-service = Service()
-options = webdriver.ChromeOptions()
-driver = webdriver.Chrome(service=service, options=options)
+    service = Service()
+    options = webdriver.ChromeOptions()
+    driver = webdriver.Chrome(service=service, options=options)
 ```
