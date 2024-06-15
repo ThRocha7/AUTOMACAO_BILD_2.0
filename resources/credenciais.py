@@ -1,5 +1,5 @@
 infos = {
-    'email': '',
-    'password': '',
-    'caminho': ''
+'email' :  '',
+'password' : '',
+'caminho' : r''
 }

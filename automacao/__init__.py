@@ -1,0 +1,1 @@
+from .automacao2 import *
