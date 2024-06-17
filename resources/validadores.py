@@ -6,7 +6,9 @@ def inserir_credencial(infos):
     for i in infos:
         if infos[i] == '':
             infos[i] = input(f'Digite o {i} para processguir: ')
-            if '@bild.com.br' not in infos['email']:
+            if infos[i] == 'end':
+                return False
+        elif '@bild.com.br' not in infos['email']:
                 infos['email'] = input('Email inválido, tente novamente: ')
     return infos
 

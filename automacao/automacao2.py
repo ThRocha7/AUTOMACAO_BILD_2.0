@@ -7,11 +7,8 @@ from time import sleep
 import pandas as pd
 import pyautogui as auto
 import resources as rs
-import pyperclip as clip
 
 def call_automacao():
-    # Verifica se as credenciais foram informadas
-    rs.inserir_credencial(rs.infos)
 
     service = Service()
     options = webdriver.ChromeOptions()
@@ -164,23 +161,10 @@ def call_automacao():
         sleep(2)
 
         # Procurando PDF
-        auto.press(['tab', 'tab', 'tab', 'tab', 'tab', 'enter'])
-        clip.copy(rs.infos['caminho'])
-        auto.hotkey('ctrl', 'v')
-        auto.press(['enter', 'tab'])
-        auto.write(dados['nome_abrev'])
-        sleep(3)
-        auto.press(['tab', 'tab', 'tab', 'down', 'up', 'f2'])
-        auto.hotkey('ctrl', 'c')
-
+        rs.procurar_pdf(dados)
         nome_arq_validado = rs.conferir_arq(dados['nome_arq'])
 
-        if nome_arq_validado == False:
-            print(f'parei na linha {linha + 2}')
-            rs.notificacao_erro.show()
-            driver.quit
-            break
-        else:
+        if nome_arq_validado:
             btn_cadastrar_doc = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div[2]/div[2]/div/div/div[1]/div[2]/div[2]/div[10]/section/button')
             btn_cadastrar_doc.click()
             sleep(12)
@@ -191,7 +175,10 @@ def call_automacao():
             # Reiniciar processo
             outras_entradas.click()
             nao_fiscais.click()
-
+        else:
+            print(f'parei na linha {linha + 2}')
+            rs.notificacao_erro.show()
+            break
 
     
     rs.notificacao_finalizado.show()
