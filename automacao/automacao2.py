@@ -8,7 +8,7 @@ import pandas as pd
 import pyautogui as auto
 import resources as rs
 
-def call_automacao() -> None:
+def main() -> None:
 
     service = Service()
     options = webdriver.ChromeOptions()
@@ -186,3 +186,6 @@ def call_automacao() -> None:
 
     
     rs.notificacao_finalizado.show()
+
+if __name__ == '__main__':
+    main()

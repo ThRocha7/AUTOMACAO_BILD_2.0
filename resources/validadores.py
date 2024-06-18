@@ -2,7 +2,7 @@ import pyautogui as auto
 import pyperclip as clip
 from .credenciais import infos
 
-def inserir_credencial(infos):
+def inserir_credencial(infos:dict) -> dict:
     for i in infos:
         if infos[i] == '':
             infos[i] = input(f'Digite o {i} para processguir: ')
@@ -13,7 +13,7 @@ def inserir_credencial(infos):
     return infos
 
 
-def validador_planilha(dados):
+def validador_planilha(dados:dict) -> bool:
     for i in dados:
         if str(dados[i]) == 'nan':
             print('A planilha contém campos vazios')
@@ -39,7 +39,7 @@ def looping_tentativa(nome):
         
         anterior = copia_while
 
-def conferir_arq(nome):
+def conferir_arq(nome:str) -> bool:
     copia = clip.paste()
 
     if copia == nome:
