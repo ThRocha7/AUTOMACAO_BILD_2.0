@@ -8,7 +8,7 @@ import pandas as pd
 import pyautogui as auto
 import resources as rs
 
-def call_automacao():
+def call_automacao() -> None:
 
     service = Service()
     options = webdriver.ChromeOptions()
@@ -46,7 +46,7 @@ def call_automacao():
     nao_fiscais.click()
 
     #ler planilha
-    df = pd.read_excel('planilha_condos1.xlsx')
+    df = pd.read_excel('Modelo_planilha_automacao.xlsx')
 
     for linha in df.index:
 
@@ -57,8 +57,8 @@ def call_automacao():
         'valor': str(df.loc[linha,'valor']),
         'num_doc': str(df.loc[linha,'num_doc']),
         'servico': df.loc[linha,'servico'],
-        'nome_arq': df.loc[linha,'nome_arquivo'],
-        'nome_abrev': df.loc[linha, 'nome_abrev']
+        'nome_arq': str(df.loc[linha,'nome_arquivo']),
+        'nome_abrev': str(df.loc[linha, 'nome_abrev'])
         }
             
         dados_validados= rs.validador_planilha(dados)
@@ -161,17 +161,21 @@ def call_automacao():
         sleep(2)
 
         # Procurando PDF
-        rs.procurar_pdf(dados)
+        rs.procurar_pdf(dados, rs.infos['caminho'])
         nome_arq_validado = rs.conferir_arq(dados['nome_arq'])
 
-        if nome_arq_validado:
+        if nome_arq_validado == True:
             btn_cadastrar_doc = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div[2]/div[2]/div/div/div[1]/div[2]/div[2]/div[10]/section/button')
             btn_cadastrar_doc.click()
             sleep(12)
 
-            btn_voltar = driver.find_element(By.XPATH, '//*[@id="rollback"]')
-            btn_voltar.click()
-
+            try:
+                btn_voltar = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, '//*[@id="rollback"]')))
+                btn_voltar.click()
+            except:
+                driver.quit()
+                break
             # Reiniciar processo
             outras_entradas.click()
             nao_fiscais.click()
