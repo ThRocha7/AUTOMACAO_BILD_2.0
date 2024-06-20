@@ -5,7 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 from time import sleep
 import pandas as pd
-import pyautogui as auto
+from pyautogui import write
 import resources as rs
 
 def main() -> None:
@@ -80,7 +80,7 @@ def main() -> None:
             EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/section/div[2]/div[1]/div[2]/div/div[2]'))
         )
             field_cnpj_tomador.click()
-            auto.write(dados['tomador'])
+            write(dados['tomador'])
             sleep(.5)
         except:
             print('não encontrei')
@@ -112,7 +112,7 @@ def main() -> None:
             EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/section/div[2]/div[1]/div[2]/div/div[2]'))
         )
             field_cnpj_prestador.click()
-            auto.write(dados['prestador'])
+            write(dados['prestador'])
             sleep(.5)
         except:
             print('não encontrei')
@@ -131,7 +131,7 @@ def main() -> None:
         # Preenche a data de emissão
         field_data_emissao = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div[2]/div[2]/div/div/div[1]/div[2]/div[1]/div[2]/div/div[1]/div')
         field_data_emissao.click()
-        auto.write(dados['data'])
+        write(dados['data'])
         field_base_cal = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div[2]/div[2]/div/div/div[1]/div[2]/div[2]/div[6]')
         field_base_cal.click()
 
@@ -139,21 +139,21 @@ def main() -> None:
         field_total = driver.find_element(By.XPATH, '/html/body/div/section/div/div[2]/div[2]/div/div/div[1]/div[2]/div[1]/div[8]')
         field_total.click()
         dados['valor'] = dados['valor'].replace('.', ',')
-        auto.write(dados['valor'])
+        write(dados['valor'])
 
         # Preenche número do documento
         field_num_doc = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div[2]/div[2]/div/div/div[1]/div[2]/div[2]/div[1]')
         field_num_doc.click()
-        auto.write(dados['num_doc'])
+        write(dados['num_doc'])
 
         # Preenche serviço
         field_servico = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div[2]/div[2]/div/div/div[1]/div[2]/div[2]/div[4]')
         field_servico.click()
-        auto.write(dados['servico'])
+        write(dados['servico'])
 
         # Preenche base de cal
         field_base_cal.click()
-        auto.write(dados['valor'])
+        write(dados['valor'])
 
         # Abre janela de arquivos
         field_pdf = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div[2]/div[2]/div/div/div[2]/div/div[2]/div[1]/div[1]/section/div/div/div/div/div')

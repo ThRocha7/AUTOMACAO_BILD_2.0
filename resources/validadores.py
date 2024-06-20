@@ -2,15 +2,21 @@ import pyautogui as auto
 import pyperclip as clip
 from .credenciais import infos
 
-def inserir_credencial(infos:dict) -> dict:
-    for i in infos:
-        if infos[i] == '':
-            infos[i] = input(f'Digite o {i} para processguir: ')
-            if infos[i] == 'end':
-                return False
-        elif '@bild.com.br' not in infos['email']:
-                infos['email'] = input('Email inválido, tente novamente: ')
-    return infos
+def inserir_credencial(email, password, directory):
+    emails_validos = ['@bild.com.br', '@vittaresidencial.com.br']
+    if email == '' or password == '' or directory == '':
+        return 'nan'
+    else:
+        for final in emails_validos:
+            if final in email:
+                infos['email'] = email
+                infos['password'] = password
+                infos['caminho'] = directory
+                print(infos)
+                return True
+        else:
+            return 'invalid'
+
 
 
 def validador_planilha(dados:dict) -> bool:
@@ -20,7 +26,7 @@ def validador_planilha(dados:dict) -> bool:
             return False
         else: return True
 
-def looping_tentativa(nome):
+def looping_tentativa(nome:str) -> bool:
     parar_while = False
     anterior = ''
 
