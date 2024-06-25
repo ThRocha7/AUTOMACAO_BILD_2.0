@@ -1,6 +1,22 @@
 import tkinter as tk
 from resources import validadores, credenciais
 
+def procurar_pasta():
+    print('oi')
+
+def parar_automacao():
+    print('parei')
+
+def window_parar_automacao():
+    window2 = tk.Tk()
+
+    label_perguntar = tk.Label(text='Deseja parar a automação?')
+    label_perguntar.grid(row = 0, column= 0)
+
+    btn_parar = tk.Button(text= 'Parar', command=parar_automacao)
+    btn_parar.grid(row= 1, column= 0)
+    window2.mainloop()
+
 def pegar_infos():
     email = email_field.get()
     password = password_field.get()
@@ -10,7 +26,9 @@ def pegar_infos():
         text_error['text'] = 'Email inválido'
     elif infos_validadas == 'nan':
         text_error['text'] = 'Há alguma informação vazia'
-    else: print('valido')
+    else:
+        window.destroy()
+        window_parar_automacao()
 
 
 window = tk.Tk()
@@ -28,13 +46,15 @@ email_field.grid(row=2, column=0, columnspan=2, sticky='EW')
 
 text_password = tk.Label(text='Senha:')
 text_password.grid(row=4, column=0, sticky='W')
-password_field = tk.Entry()
+password_field = tk.Entry(show='●')
 password_field.grid(row=5, column=0, columnspan=2, sticky='EW')
 
 text_dir = tk.Label(text='Diretório:')
 text_dir.grid(row=6, column=0, sticky='W')
 dir_field = tk.Entry()
-dir_field.grid(row=7, column=0, columnspan=2, sticky='EW')
+dir_field.grid(row=7, column=0, sticky='EW')
+btn_procurar = tk.Button(text='Procurar pasta', command=procurar_pasta)
+btn_procurar.grid(row= 7, column=1)
 
 btn_start = tk.Button(text='Iniciar', command=pegar_infos)
 btn_start.grid(row=9, column=1)
