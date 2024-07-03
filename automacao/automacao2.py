@@ -46,7 +46,8 @@ def main() -> None:
     nao_fiscais.click()
 
     #ler planilha
-    df = pd.read_excel('Modelo_planilha_automacao.xlsx')
+    df = pd.read_excel('ROBO THIAGO.xlsx')
+    contador = 1
 
     for linha in df.index:
 
@@ -164,27 +165,24 @@ def main() -> None:
         rs.procurar_pdf(dados, rs.infos['caminho'])
         nome_arq_validado = rs.conferir_arq(dados['nome_arq'])
 
-        if nome_arq_validado == True:
-            btn_cadastrar_doc = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div[2]/div[2]/div/div/div[1]/div[2]/div[2]/div[10]/section/button')
-            btn_cadastrar_doc.click()
-            sleep(12)
-
-            try:
-                btn_voltar = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, '//*[@id="rollback"]')))
-                btn_voltar.click()
-            except:
-                driver.quit()
-                break
-            # Reiniciar processo
-            outras_entradas.click()
-            nao_fiscais.click()
-        else:
+        if nome_arq_validado == False:
             print(f'parei na linha {linha + 2}')
             rs.notificacao_erro.show()
             break
+        else:    
+            btn_cadastrar_doc = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div[2]/div[2]/div/div/div[1]/div[2]/div[2]/div[10]/section/button')
+            btn_cadastrar_doc.click()
+            sleep(15)
 
-    
+            # Reiniciar processo
+            outras_entradas_reiniciar = driver.find_element(By.XPATH, '//*[@id="sidebar-container"]/nav/ul/li[4]/div/div/section/header')
+            outras_entradas_reiniciar.click()
+            nao_fiscais_reiniciar = driver.find_element(By.XPATH, '//*[@id="ul"]/div[2]/li')
+            nao_fiscais_reiniciar.click()
+
+            print(contador)
+            contador += 1
+            
     rs.notificacao_finalizado.show()
 
 if __name__ == '__main__':
