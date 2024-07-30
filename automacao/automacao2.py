@@ -52,7 +52,7 @@ def main() -> None:
     for linha in df.index:
 
         dados = {
-        'tomador': df.loc[linha, 'bu'],
+        'tomador': df.loc[linha, 'cnpj_bu'],
         'prestador': df.loc[linha,'fornecedor'],
         'data': df.loc[linha, 'competencia'],
         'valor': str(df.loc[linha,'valor']),
