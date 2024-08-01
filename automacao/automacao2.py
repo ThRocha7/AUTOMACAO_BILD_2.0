@@ -47,7 +47,7 @@ def main() -> None:
 
     #ler planilha
     df = pd.read_excel('ROBO THIAGO.xlsx')
-    contador = 1
+    contador = 0
 
     for linha in df.index:
 
@@ -169,7 +169,8 @@ def main() -> None:
             print(f'parei na linha {linha + 2}')
             rs.notificacao_erro.show()
             break
-        else:    
+        else:  
+            sleep(2)  
             btn_cadastrar_doc = driver.find_element(By.XPATH, '//*[@id="__next"]/section/div/div[2]/div[2]/div/div/div[1]/div[2]/div[2]/div[10]/section/button')
             btn_cadastrar_doc.click()
             sleep(15)
@@ -180,8 +181,8 @@ def main() -> None:
             nao_fiscais_reiniciar = driver.find_element(By.XPATH, '//*[@id="ul"]/div[2]/li')
             nao_fiscais_reiniciar.click()
 
-            print(contador)
             contador += 1
+            print(contador)
             
     rs.notificacao_finalizado.show()
 
